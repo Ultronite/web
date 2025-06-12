@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Un Mensaje Para Mi Amor</title>
+  <style>
+    /* Reset and basic */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffafbd 0%, #ffc3a0 100%);
+      color: #330029;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(255, 105, 180, 0.3);
+      max-width: 600px;
+      padding: 48px 32px;
+      user-select: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #d81e5b;
+      text-shadow: 1px 1px 4px #8b0049;
+    }
+    p {
+      font-size: 1.4rem;
+      line-height: 1.6;
+      color: #5a0b2d;
+      user-select: text;
+    }
+    .heart {
+      font-size: 5rem;
+      color: #d81e5b;
+      animation: heartbeat 1.5s infinite;
+    }
+    @keyframes heartbeat {
+      0%,100% {transform: scale(1);}
+      50% {transform: scale(1.3);}
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    button {
+      background: linear-gradient(135deg, #ff5f6d 0%, #ffc371 100%);
+      border: none;
+      padding: 14px 36px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #330029;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(255, 105, 180, 0.5);
+      cursor: pointer;
+      transition: background 0.4s ease, transform 0.2s ease;
+      min-width: 140px;
+    }
+    button:hover {
+      background: linear-gradient(135deg, #ffc371 0%, #ff5f6d 100%);
+      box-shadow: 0 10px 25px rgba(255, 105, 180, 0.8);
+      transform: scale(1.05);
+    }
+    .hidden {
+      display: none;
+    }
+    .date-section {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+    label {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #330029;
+    }
+    input[type="date"], input[type="time"] {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #d81e5b;
+      font-size: 1.1rem;
+      width: 220px;
+      text-align: center;
+      user-select: text;
+    }
+    .confirm-btn {
+      background: #d81e5b;
+      color: white;
+      padding: 12px 32px;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 5px 16px rgba(216, 30, 91, 0.7);
+      border: none;
+      transition: background 0.3s ease, transform 0.2s ease;
+      min-width: 140px;
+    }
+    .confirm-btn:hover {
+      background: #a81744;
+      transform: scale(1.05);
+    }
+    .message-success, .message-error {
+      font-size: 1.3rem;
+      font-weight: 700;
+      padding: 24px;
+      border-radius: 16px;
+      user-select: text;
+    }
+    .message-success {
+      background: #daf5e6;
+      color: #1a6f3b;
+      box-shadow: 0 5px 20px rgba(26, 111, 59, 0.3);
+    }
+    .message-error {
+      background: #f8d7da;
+      color: #842029;
+      box-shadow: 0 5px 20px rgba(132, 32, 41, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-label="Mensaje de amor y perdón interactivo">
+    <div class="heart" aria-hidden="true">&#10084;</div>
+    <h1>Te Amo Con Todo Mi Corazón</h1>
+    <p>Amor mío, sé que te he lastimado y eso me duele profundamente.</p>
+    <p>Te pido perdón sinceramente.</p>
+    <p>¿Me perdonas?</p>
+    
+    <div class="buttons" id="decision-buttons">
+      <button type="button" id="btn-forgive" aria-label="Decir que me perdonas">Te perdono</button>
+      <button type="button" id="btn-no-forgive" aria-label="Decir que no me perdonas">No te perdono</button>
+    </div>
+
+    <!-- Section to show if forgive -->
+    <section id="date-section" class="date-section hidden" aria-live="polite" aria-atomic="true">
+      <p>¡Gracias por tu perdón! ¿Quieres tener una cita conmigo?</p>
+      <label for="date-input">Elige una fecha:</label>
+      <input type="date" id="date-input" aria-label="Seleccionar fecha de la cita" />
+      <label for="time-input">Elige la hora:</label>
+      <input type="time" id="time-input" aria-label="Seleccionar hora de la cita" />
+      <button type="button" id="confirm-date" class="confirm-btn" aria-label="Confirmar cita">Confirmar cita</button>
+    </section>
+
+    <!-- Success message -->
+    <p id="success-message" class="message-success hidden" role="alert"></p>
+
+    <!-- Error message for no forgiveness -->
+    <p id="error-message" class="message-error hidden" role="alert">
+      Lo siento mucho. Entiendo tu decisión y respetaré cómo te sientes. Siempre te amaré.
+    </p>
+  </main>
+
+  <script>
+    const btnForgive = document.getElementById('btn-forgive');
+    const btnNoForgive = document.getElementById('btn-no-forgive');
+    const decisionButtons = document.getElementById('decision-buttons');
+    const dateSection = document.getElementById('date-section');
+    const confirmDateBtn = document.getElementById('confirm-date');
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+    const dateInput = document.getElementById('date-input');
+    const timeInput = document.getElementById('time-input');
+
+    btnForgive.addEventListener('click', () => {
+      decisionButtons.classList.add('hidden');
+      errorMessage.classList.add('hidden');
+      dateSection.classList.remove('hidden');
+      successMessage.classList.add('hidden');
+      dateInput.value = '';
+      timeInput.value = '';
+      dateInput.focus();
+    });
+
+    btnNoForgive.addEventListener('click', () => {
+      decisionButtons.classList.add('hidden');
+      dateSection.classList.add('hidden');
+      successMessage.classList.add('hidden');
+      errorMessage.classList.remove('hidden');
+      errorMessage.focus();
+    });
+
+    confirmDateBtn.addEventListener('click', () => {
+      const dateVal = dateInput.value;
+      const timeVal = timeInput.value;
+      if (!dateVal || !timeVal) {
+        alert('Por favor, selecciona fecha y hora para la cita.');
+        if (!dateVal) {
+          dateInput.focus();
+        } else {
+          timeInput.focus();
+        }
+        return;
+      }
+      dateSection.classList.add('hidden');
+      successMessage.textContent = `¡Perfecto! Nuestra cita está programada para el ${new Date(dateVal).toLocaleDateString('es-ES')} a las ${timeVal}. ¡Estoy muy feliz!`;
+      successMessage.classList.remove('hidden');
+      successMessage.focus();
+    });
+  </script>
+</body>
+</html>
+
+```
